@@ -1,0 +1,30 @@
+{
+  "iPhone 15": {
+    "MediaMarkt": 4899.00,
+    "EuroRTVAGD": 4949.00,
+    "x-kom": 4799.00,
+    "Amazon": 4850.00
+  },
+  "Samsung Galaxy S24": {
+    "MediaMarkt": 3999.00,
+    "EuroRTVAGD": 4050.00,
+    "x-kom": 3979.00,
+    "Amazon": 4100.00
+  },
+  "Xiaomi Redmi Note 13": {
+    "MediaMarkt": 1299.00,
+    "EuroRTVAGD": 1349.00,
+    "x-kom": 1279.00
+  },
+  "PlayStation 5": {
+    "MediaMarkt": 2499.00,
+    "EuroRTVAGD": 2549.00,
+    "x-kom": 2449.00,
+    "Amazon": 2399.00
+  },
+  "Apple MacBook Air M2": {
+    "MediaMarkt": 5999.00,
+    "EuroRTVAGD": 6179.00,
+    "x-kom": 5949.00
+  }
+}

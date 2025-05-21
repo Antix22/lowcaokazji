@@ -11,13 +11,21 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.lowcaokazji.R;
 import com.example.lowcaokazji.data.Product;
+import com.example.lowcaokazji.model.PriceInfo;
+import com.example.lowcaokazji.repository.ProductRepository;
+import com.example.lowcaokazji.utils.JsonDataProvider;
+import com.example.lowcaokazji.utils.NotificationHelper;
 import com.example.lowcaokazji.viewmodel.ProductViewModel;
+
+import java.util.Map;
 
 public class AddProductActivity extends AppCompatActivity {
 
     private EditText editName, editUrl, editCategory, editImage, editTargetPrice, editDescription;
     private Button btnAdd;
     private ProductViewModel productViewModel;
+
+    private ProductRepository productRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +43,8 @@ public class AddProductActivity extends AppCompatActivity {
         productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
 
         btnAdd.setOnClickListener(v -> addProduct());
+
+        productRepository = new ProductRepository(getApplication());
     }
 
     private void addProduct() {
@@ -58,9 +68,36 @@ public class AddProductActivity extends AppCompatActivity {
             return;
         }
 
+        // --- ORYGINALNY KOD DODAWANIA PRODUKTU ---
         Product product = new Product(name, url, category, image, targetPrice, description);
-        productViewModel.insert(product);
+        productRepository.insert(product);
+
+        // --- NOWA CZĘŚĆ: NATYCHMIASTOWE POWIADOMIENIE O NAJNIŻSZEJ CENIE ---
+        PriceInfo priceInfo = JsonDataProvider.getPriceInfoForProduct(this, name);
+        if (priceInfo != null && !priceInfo.getShopPrices().isEmpty()) {
+            double minPrice = Double.MAX_VALUE;
+            String bestShop = "";
+            for (Map.Entry<String, Double> entry : priceInfo.getShopPrices().entrySet()) {
+                if (entry.getValue() < minPrice) {
+                    minPrice = entry.getValue();
+                    bestShop = entry.getKey();
+                }
+            }
+            // Sprawdź czy cena jest poniżej progu
+            if (minPrice <= targetPrice) {
+                // Pobierz opinie i policz ile pozytywnych (symulacja)
+                int positive = JsonDataProvider.countPositiveReviews(this, name);
+                int all = JsonDataProvider.countAllReviews(this, name);
+                int percent = all > 0 ? (positive * 100 / all) : 0;
+
+                String msg = "🔥 Okazja! \"" + name + "\" za " + minPrice + " zł w " + bestShop
+                        + (percent >= 70 ? " z pozytywnymi opiniami!" : "!");
+                NotificationHelper.showDealNotification(this, "Łowca Okazji", msg);
+            }
+        }
+
         Toast.makeText(this, "Dodano produkt!", Toast.LENGTH_SHORT).show();
         finish();
     }
+
 }

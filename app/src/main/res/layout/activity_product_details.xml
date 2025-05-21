@@ -53,5 +53,13 @@
             android:text="Opis produktu"
             android:layout_marginBottom="16dp" />
 
+        <Button
+            android:id="@+id/buttonEditPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zmień"
+            android:layout_marginStart="16dp"
+            android:layout_gravity="center_vertical"
+            />
     </LinearLayout>
 </ScrollView>

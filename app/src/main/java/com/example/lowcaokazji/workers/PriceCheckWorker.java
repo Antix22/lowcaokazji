@@ -1,28 +1,23 @@
 package com.example.lowcaokazji.workers;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.room.Room;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.example.lowcaokazji.data.AppDatabase;
-import com.example.lowcaokazji.data.HistoryEntry;
 import com.example.lowcaokazji.data.Product;
 import com.example.lowcaokazji.data.WishlistDao;
 import com.example.lowcaokazji.utils.JsonDataProvider;
 import com.example.lowcaokazji.utils.NotificationHelper;
-import com.example.lowcaokazji.model.PriceInfo;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-// Worker codziennie sprawdzający okazje i powiadamiający użytkownika
 public class PriceCheckWorker extends Worker {
-
     public PriceCheckWorker(@NonNull Context context, @NonNull WorkerParameters params) {
         super(context, params);
     }
@@ -35,18 +30,28 @@ public class PriceCheckWorker extends Worker {
         // Pobierz instancję bazy danych
         AppDatabase db = AppDatabase.getInstance(context);
         WishlistDao wishlistDao = db.wishlistDao();
-        List<Product> wishlist = wishlistDao.getAll().getValue(); // Uwaga: getValue() działa tylko, jeśli LiveData jest aktywna (wątpliwe w tle)
 
-        // Rozwiązanie: pobierz produkty synchronizacyjnie (trzeba dodać metodę do DAO - np. getAllList())
-        if (wishlist == null || wishlist.isEmpty()) {
+        // Obsługa parametru productId (gdy chcemy sprawdzić tylko jeden produkt)
+        int productId = getInputData().getInt("productId", -1);
+
+        List<Product> productsToCheck;
+        if (productId != -1) {
+            Product p = wishlistDao.getProductById(productId);
+            if (p == null) return Result.success();
+            productsToCheck = Collections.singletonList(p);
+            Log.d("PriceCheckWorker", "Sprawdzam tylko produkt id: " + productId);
+        } else {
+            productsToCheck = wishlistDao.getAllList();
+            Log.d("PriceCheckWorker", "Sprawdzam wszystkie produkty, liczba: " + productsToCheck.size());
+        }
+
+        if (productsToCheck == null || productsToCheck.isEmpty()) {
             // Nic do sprawdzania
             return Result.success();
         }
 
-        // Dla każdego produktu na wishliście
-        for (Product product : wishlist) {
-            // Pobierz ceny ze sklepu (symulacja/mock)
-            PriceInfo priceInfo = JsonDataProvider.getPriceInfoForProduct(context, product.name);
+        for (Product product : productsToCheck) {
+            JsonDataProvider.PriceInfo priceInfo = JsonDataProvider.getPriceInfoForProduct(context, product.name);
             if (priceInfo == null) continue;
 
             // Szukaj najniższej ceny
@@ -61,27 +66,24 @@ public class PriceCheckWorker extends Worker {
 
             // Sprawdź czy cena jest poniżej progu
             if (minPrice <= product.targetPrice) {
-                // Pobierz opinie i policz ile pozytywnych (symulacja)
                 int positive = JsonDataProvider.countPositiveReviews(context, product.name);
                 int all = JsonDataProvider.countAllReviews(context, product.name);
                 int percent = all > 0 ? (positive * 100 / all) : 0;
 
-                // Powiadomienie
                 String msg = "🔥 Okazja! \"" + product.name + "\" za " + minPrice + " zł w " + bestShop
                         + (percent >= 70 ? " z pozytywnymi opiniami!" : "!");
                 NotificationHelper.showDealNotification(context, "Łowca Okazji", msg);
 
-                // Zapisz do historii
-                db.historyDao().insert(new HistoryEntry(
+                db.historyDao().insert(new com.example.lowcaokazji.data.HistoryEntry(
                         product.name,
                         bestShop,
                         minPrice,
                         System.currentTimeMillis(),
                         msg
                 ));
+                Log.d("PriceCheckWorker", "Wysłano powiadomienie: " + msg);
             }
         }
-
         return Result.success();
     }
 }

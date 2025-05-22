@@ -69,7 +69,7 @@ public class WishlistAdapter extends ListAdapter<Product, WishlistAdapter.Produc
             textName = itemView.findViewById(R.id.textProductName);
             textCategory = itemView.findViewById(R.id.textProductCategory);
             textTargetPrice = itemView.findViewById(R.id.textProductTargetPrice);
-            buttonBuy = itemView.findViewById(R.id.buttonBuy);
+            buttonBuy = itemView.findViewById(R.id.buttonBuy); // CRASH jeśli nie ma w layoucie!
         }
 
         public void bind(Product product, OnProductClickListener listener) {

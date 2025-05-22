@@ -4,53 +4,67 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp"
-    android:background="@color/white">
+    android:padding="8dp">
 
     <ImageView
-        android:id="@+id/imageProductIcon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/ic_product"
-        android:contentDescription="Ikona produktu"
+        android:id="@+id/imageProduct"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="product_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ic_launcher_foreground"/>
 
     <TextView
         android:id="@+id/textProductName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Nazwa produktu"
-        android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/imageProductIcon"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/imageProduct"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="12dp"/>
+        app:layout_constraintEnd_toStartOf="@id/buttonBuy"
+        app:layout_constraintHorizontal_bias="0"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="8dp"/>
 
     <TextView
         android:id="@+id/textProductCategory"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Kategoria"
-        android:textSize="13sp"
-        app:layout_constraintStart_toEndOf="@id/imageProductIcon"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/imageProduct"
         app:layout_constraintTop_toBottomOf="@id/textProductName"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/buttonBuy"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="2dp"/>
+        android:layout_marginEnd="8dp"/>
 
     <TextView
         android:id="@+id/textProductTargetPrice"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Próg: 999 zł"
-        android:textSize="13sp"
-        app:layout_constraintStart_toEndOf="@id/imageProductIcon"
+        android:text="Próg: 100 zł"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/imageProduct"
         app:layout_constraintTop_toBottomOf="@id/textProductCategory"
+        app:layout_constraintEnd_toStartOf="@id/buttonBuy"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="2dp"/>
+        android:layout_marginEnd="8dp"/>
 
+    <Button
+        android:id="@+id/buttonBuy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kup"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        android:layout_marginStart="8dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

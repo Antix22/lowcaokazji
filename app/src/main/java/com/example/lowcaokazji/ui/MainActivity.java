@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements WishlistAdapter.O
 
     @Override
     public void onProductBuy(Product product) {
-        productViewModel.delete(product);
+        productViewModel.delete(product); // To usunie produkt z bazy i listy
 
     }
 }

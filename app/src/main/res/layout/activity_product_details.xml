@@ -72,6 +72,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Zapisz"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:layout_marginBottom="10dp"/>
+        <Button
+            android:id="@+id/buttonBuy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kup"
+            android:textColor="@android:color/white"
+
+            />
     </LinearLayout>
 </ScrollView>

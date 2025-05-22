@@ -3,6 +3,7 @@ package com.example.lowcaokazji.ui.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ public class WishlistAdapter extends ListAdapter<Product, WishlistAdapter.Produc
 
     public interface OnProductClickListener {
         void onProductClick(Product product);
+        void onProductBuy(Product product);
     }
 
     private final OnProductClickListener listener;
@@ -60,12 +62,14 @@ public class WishlistAdapter extends ListAdapter<Product, WishlistAdapter.Produc
 
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         private final TextView textName, textCategory, textTargetPrice;
+        private final Button buttonBuy;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             textName = itemView.findViewById(R.id.textProductName);
             textCategory = itemView.findViewById(R.id.textProductCategory);
             textTargetPrice = itemView.findViewById(R.id.textProductTargetPrice);
+            buttonBuy = itemView.findViewById(R.id.buttonBuy);
         }
 
         public void bind(Product product, OnProductClickListener listener) {
@@ -76,6 +80,10 @@ public class WishlistAdapter extends ListAdapter<Product, WishlistAdapter.Produc
             itemView.setOnClickListener(v -> {
                 if (listener != null)
                     listener.onProductClick(product);
+            });
+            buttonBuy.setOnClickListener(v -> {
+                if (listener != null)
+                    listener.onProductBuy(product);
             });
         }
     }

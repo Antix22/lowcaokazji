@@ -11,7 +11,7 @@ public class Product {
     public String name;
     public String url;
     public String category;
-    public double targetPrice; // lub priceThreshold
+    public double targetPrice;
 
     public Product(String name, String url, String category, double targetPrice) {
         this.name = name;

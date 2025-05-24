@@ -1,5 +1,6 @@
 package com.example.lowcaokazji.workers;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -14,12 +15,14 @@ import com.example.lowcaokazji.data.HistoryEntry;
 import com.example.lowcaokazji.data.Product;
 import com.example.lowcaokazji.data.WishlistDao;
 import com.example.lowcaokazji.model.PriceInfo;
+import com.example.lowcaokazji.repository.HistoryRepository;
 import com.example.lowcaokazji.utils.JsonDataProvider;
 import com.example.lowcaokazji.utils.NotificationHelper;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
 
 public class PriceCheckWorker extends Worker {
 
@@ -91,7 +94,8 @@ public class PriceCheckWorker extends Worker {
                         username
                 );
 
-                db.historyDao().insert(entry);
+                HistoryRepository repo = new HistoryRepository((Application) context.getApplicationContext());
+                repo.insert(entry);
 
                 Log.d("HistoryDebug", "Zapisano wpis do historii dla usera: " + username);
 

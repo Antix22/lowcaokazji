@@ -11,7 +11,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.lowcaokazji.R;
 import com.example.lowcaokazji.data.Product;
+import com.example.lowcaokazji.model.PriceInfo;
+import com.example.lowcaokazji.utils.JsonDataProvider;
+import com.example.lowcaokazji.utils.NotificationHelper;
 import com.example.lowcaokazji.viewmodel.ProductViewModel;
+
+import java.util.Map;
 
 public class AddProductActivity extends AppCompatActivity {
 
@@ -56,6 +61,23 @@ public class AddProductActivity extends AppCompatActivity {
 
         Product product = new Product(name, url, category, targetPrice);
         productViewModel.insert(product);
+
+        // Od razu sprawdź czy jest okazja i wyślij powiadomienie
+        PriceInfo priceInfo = JsonDataProvider.getPriceInfoForProduct(this, name);
+        if (priceInfo != null && !priceInfo.getShopPrices().isEmpty()) {
+            double minPrice = Double.MAX_VALUE;
+            String bestShop = "";
+            for (Map.Entry<String, Double> entry : priceInfo.getShopPrices().entrySet()) {
+                if (entry.getValue() < minPrice) {
+                    minPrice = entry.getValue();
+                    bestShop = entry.getKey();
+                }
+            }
+            if (minPrice <= targetPrice) {
+                String msg = "🔥 Okazja! \"" + name + "\" za " + minPrice + " zł w " + bestShop + "!";
+                NotificationHelper.showDealNotification(this, "Łowca Okazji", msg);
+            }
+        }
 
         Toast.makeText(this, "Produkt dodany!", Toast.LENGTH_SHORT).show();
         finish();

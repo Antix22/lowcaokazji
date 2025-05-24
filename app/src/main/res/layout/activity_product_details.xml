@@ -38,6 +38,14 @@
             android:layout_marginBottom="8dp" />
 
         <TextView
+            android:id="@+id/textProductShops"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ceny w sklepach:"
+            android:paddingTop="8dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+        <TextView
             android:id="@+id/textProductUrl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

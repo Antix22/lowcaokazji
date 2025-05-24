@@ -11,16 +11,12 @@ public class Product {
     public String name;
     public String url;
     public String category;
-    public String imageUri;
-    public double targetPrice;
-    public String description;
+    public double targetPrice; // lub priceThreshold
 
-    public Product(String name, String url, String category, String imageUri, double targetPrice, String description) {
+    public Product(String name, String url, String category, double targetPrice) {
         this.name = name;
         this.url = url;
         this.category = category;
-        this.imageUri = imageUri;
         this.targetPrice = targetPrice;
-        this.description = description;
     }
 }

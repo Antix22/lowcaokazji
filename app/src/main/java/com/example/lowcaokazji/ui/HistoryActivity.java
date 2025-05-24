@@ -2,6 +2,7 @@ package com.example.lowcaokazji.ui;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -31,7 +32,5 @@ public class HistoryActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
         String username = prefs.getString("username", "");
-
         historyViewModel.getAllHistoryForUser(username).observe(this, entries -> adapter.submitList(entries));
-    }
-}
+}}

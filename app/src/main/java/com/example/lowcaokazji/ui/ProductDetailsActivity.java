@@ -38,7 +38,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.textProductName)).setText(product.name);
         ((TextView) findViewById(R.id.textProductCategory)).setText(product.category);
         ((TextView) findViewById(R.id.textProductPrice)).setText("Cena docelowa: " + product.targetPrice + " zł");
-        ((TextView) findViewById(R.id.textProductUrl)).setText(product.url);
-        ((TextView) findViewById(R.id.textProductDescription)).setText(product.description);
+ //       ((TextView) findViewById(R.id.textProductUrl)).setText(product.url);
+ //       ((TextView) findViewById(R.id.textProductDescription)).setText(product.description);
     }
 }

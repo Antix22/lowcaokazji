@@ -13,7 +13,7 @@ public class HistoryEntry {
     public double dealPrice;
     public long timestamp;
     public String message;
-    public String username; // <- dodaj to pole!
+    public String username; // <-- NOWE POLE
 
     public HistoryEntry(String productName, String shopName, double dealPrice, long timestamp, String message, String username) {
         this.productName = productName;

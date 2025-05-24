@@ -10,6 +10,7 @@ import androidx.work.WorkerParameters;
 import androidx.work.Data;
 
 import com.example.lowcaokazji.data.AppDatabase;
+import com.example.lowcaokazji.data.HistoryEntry;
 import com.example.lowcaokazji.data.Product;
 import com.example.lowcaokazji.data.WishlistDao;
 import com.example.lowcaokazji.model.PriceInfo;
@@ -76,18 +77,24 @@ public class PriceCheckWorker extends Worker {
 
                 NotificationHelper.showDealNotification(context, "Łowca Okazji", msg);
                 SharedPreferences prefs = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-
                 String username = prefs.getString("username", "");
+                Log.d("HistoryDebug", "Próba zapisu historii okazji dla usera: " + username);
 
-                db.historyDao().insert(new com.example.lowcaokazji.data.HistoryEntry(
+                String msg2 = "Produkt " + product.name + " jest na promocji w " + bestShop + " za " + minPrice + " zł!";
+
+                HistoryEntry entry = new HistoryEntry(
                         product.name,
                         bestShop,
                         minPrice,
                         System.currentTimeMillis(),
-                        msg,
-                        username // <-- to musi być przekazane
+                        msg2,
+                        username
+                );
 
-                ));
+                db.historyDao().insert(entry);
+
+                Log.d("HistoryDebug", "Zapisano wpis do historii dla usera: " + username);
+
                 Log.d("PriceCheckWorker", "Wysłano powiadomienie: " + msg);
             }
         }

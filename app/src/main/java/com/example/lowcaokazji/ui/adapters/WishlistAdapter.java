@@ -40,9 +40,9 @@ public class WishlistAdapter extends ListAdapter<Product, WishlistAdapter.Produc
                     return oldItem.name.equals(newItem.name)
                             && oldItem.category.equals(newItem.category)
                             && oldItem.targetPrice == newItem.targetPrice
-                            && oldItem.url.equals(newItem.url)
-                            && ((oldItem.imageUri == null && newItem.imageUri == null) || (oldItem.imageUri != null && oldItem.imageUri.equals(newItem.imageUri)))
-                            && ((oldItem.description == null && newItem.description == null) || (oldItem.description != null && oldItem.description.equals(newItem.description)));
+                            && oldItem.url.equals(newItem.url);
+ //                           && ((oldItem.imageUri == null && newItem.imageUri == null) || (oldItem.imageUri != null && oldItem.imageUri.equals(newItem.imageUri)))
+   //                         && ((oldItem.description == null && newItem.description == null) || (oldItem.description != null && oldItem.description.equals(newItem.description)));
                 }
             };
 

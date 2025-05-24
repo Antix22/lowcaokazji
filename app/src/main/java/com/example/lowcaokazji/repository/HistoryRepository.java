@@ -15,24 +15,22 @@ import java.util.concurrent.Executors;
 public class HistoryRepository {
 
     private final HistoryDao historyDao;
-    private final LiveData<List<HistoryEntry>> allHistory;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public HistoryRepository(Application application) {
         AppDatabase db = AppDatabase.getInstance(application);
         historyDao = db.historyDao();
-        allHistory = historyDao.getAll();
     }
 
-    public LiveData<List<HistoryEntry>> getAllHistory() {
-        return allHistory;
+    public LiveData<List<HistoryEntry>> getAllHistoryForUser(String username) {
+        return historyDao.getAllForUser(username);
     }
 
     public void insert(HistoryEntry entry) {
         executor.execute(() -> historyDao.insert(entry));
     }
 
-    public void clearHistory() {
-        executor.execute(historyDao::clearHistory);
+    public void clearHistoryForUser(String username) {
+        executor.execute(() -> historyDao.clearHistoryForUser(username));
     }
 }

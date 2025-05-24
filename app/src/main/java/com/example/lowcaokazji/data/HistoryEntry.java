@@ -11,14 +11,16 @@ public class HistoryEntry {
     public String productName;
     public String shopName;
     public double dealPrice;
-    public long timestamp; // czas powiadomienia/promocji (System.currentTimeMillis())
-    public String message; // opcjonalnie treść powiadomienia/opisu
+    public long timestamp;
+    public String message;
+    public String username; // <- dodaj to pole!
 
-    public HistoryEntry(String productName, String shopName, double dealPrice, long timestamp, String message) {
+    public HistoryEntry(String productName, String shopName, double dealPrice, long timestamp, String message, String username) {
         this.productName = productName;
         this.shopName = shopName;
         this.dealPrice = dealPrice;
         this.timestamp = timestamp;
         this.message = message;
+        this.username = username;
     }
 }

@@ -53,28 +53,7 @@
             android:text="Opis produktu"
             android:layout_marginBottom="16dp" />
 
-        <EditText
-            android:id="@+id/editNewTargetPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nowy próg cenowy"
-            android:inputType="numberDecimal"
-            android:visibility="gone"/>
-
-        <Button
-            android:id="@+id/buttonChangePrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Zmień"/>
-
-        <Button
-            android:id="@+id/buttonSavePrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Zapisz"
-            android:visibility="gone"
-            android:layout_marginBottom="10dp"/>
-
+        <!-- Usunięto elementy editNewTargetPrice, buttonChangePrice oraz buttonSavePrice jeśli nie są już potrzebne -->
 
     </LinearLayout>
 </ScrollView>

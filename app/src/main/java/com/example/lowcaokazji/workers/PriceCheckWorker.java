@@ -1,6 +1,7 @@
 package com.example.lowcaokazji.workers;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -74,13 +75,18 @@ public class PriceCheckWorker extends Worker {
                         + (percent >= 70 ? " z pozytywnymi opiniami!" : "!");
 
                 NotificationHelper.showDealNotification(context, "Łowca Okazji", msg);
+                SharedPreferences prefs = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+
+                String username = prefs.getString("username", "");
 
                 db.historyDao().insert(new com.example.lowcaokazji.data.HistoryEntry(
                         product.name,
                         bestShop,
                         minPrice,
                         System.currentTimeMillis(),
-                        msg
+                        msg,
+                        username // <-- to musi być przekazane
+
                 ));
                 Log.d("PriceCheckWorker", "Wysłano powiadomienie: " + msg);
             }

@@ -14,23 +14,21 @@ import java.util.List;
 public class HistoryViewModel extends AndroidViewModel {
 
     private final HistoryRepository repository;
-    private final LiveData<List<HistoryEntry>> allHistory;
 
     public HistoryViewModel(@NonNull Application application) {
         super(application);
         repository = new HistoryRepository(application);
-        allHistory = repository.getAllHistory();
     }
 
-    public LiveData<List<HistoryEntry>> getAllHistory() {
-        return allHistory;
+    public LiveData<List<HistoryEntry>> getAllHistoryForUser(String username) {
+        return repository.getAllHistoryForUser(username);
     }
 
     public void insert(HistoryEntry entry) {
         repository.insert(entry);
     }
 
-    public void clearHistory() {
-        repository.clearHistory();
+    public void clearHistoryForUser(String username) {
+        repository.clearHistoryForUser(username);
     }
 }
